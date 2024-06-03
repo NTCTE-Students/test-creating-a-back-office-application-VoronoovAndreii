@@ -1,0 +1,91 @@
+users
+  id uuid pk
+  name Text
+  login varchar(255) unique
+  password varchar(255)
+  role enum(Админ, менеджер, сотрудник)
+
+clients
+  id uuid pk
+  users_id int
+  firstname Text
+  secondname Text
+  patronymic Text
+  Phone Text unique
+  email Text unique
+  address Text
+
+products
+  id uuid pk
+  name_products Text
+  description Text
+  price Decimal
+  quantity int
+  category Text
+
+inventory
+  id uuid pk
+  orders_items_id
+  notification_id int
+  products_id
+  products Text
+  amount int
+
+
+Orders 
+  id uuid pk
+  clients_id int
+  Date_orders date
+  status enum(Оплачен,Ожидает оплаты, Доставлен)
+  order_amount int
+
+finance
+  id uuid pk
+  user_id int
+  expenses_id int
+  incomes_id int
+  documents varchar(255)
+
+order_items
+  id uuid pk
+  orders_id int
+  products_id int
+  quantity_order_items int 
+
+expenses
+  id uuid pk
+  date_expenses date
+  category_expenses enum(Реклама, аренда, Зарплата)
+  balance_expenses int
+  description_expenses Text
+
+incomes
+  id uuid pk
+  date_incomes date
+  category_incomes enum(Продажа, Услуга, Гос выплаты)
+  balance_incomes int
+  description_incomes Text
+
+notifications
+  id uuid pk 
+  notifications enum(Пополнить товар, что-то сломалось)
+  users_id int
+  description_notifications text
+  read bool
+
+fk Orders.clients_id -> clients.id
+fk order_items.order_id -> Orders.id
+fk order_items.products_id -> products.id
+fk order_items.orders_id -> Orders.id
+fk exchequer.expenses_id -> expenses.id
+fk exchequer.incomes_id -> incomes.id
+fk exchequer.user_id -> users.id
+fk clients.clients_id -> clients.id
+fk clients.users_id -> users.id
+fk notifications.users_id -> users.id
+fk finance.user_id -> users.id
+fk finance.expenses_id -> expenses.id
+fk finance.incomes_id -> incomes.id
+fk inventory.products_id -> products.id
+fk inventory.orders_items_id -> order_items.id
+fk inventory.notification_id -> notifications.id
